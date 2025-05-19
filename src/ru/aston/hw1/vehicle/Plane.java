@@ -1,6 +1,8 @@
-package hw1.vehicles;
+package ru.aston.hw1.vehicle;
 
-public class Helicopter extends Vehicle implements HasWheels, HasPropeller, CanCarryCargo {
+public class Plane extends Vehicle implements HasWheels, HasPropeller, HasWings, CanCarryCargo {
+
+    private static final int WHEEL_COUNT = 2;
 
     @Override
     public void loadCargo() {
@@ -14,16 +16,21 @@ public class Helicopter extends Vehicle implements HasWheels, HasPropeller, CanC
 
     @Override
     public boolean isStart() {
-        return true;
+        return false;
     }
 
     @Override
     public int getWheelCount() {
-        return 2;
+        return WHEEL_COUNT;
     }
 
     @Override
-    void move() {
+    public String wingType() {
+        return "Straight";
+    }
+
+    @Override
+    public void move() {
         System.out.println(this.getClass().getName() + " start moving...");
     }
 }

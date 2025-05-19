@@ -1,6 +1,7 @@
-package hw1.animals;
+package ru.aston.hw1.animal;
 
-abstract class Mammal extends Animal implements Vertebrate  {
+abstract class Mammal extends Animal implements Vertebrate {
+
     @Override
     abstract String getSpecies();
 

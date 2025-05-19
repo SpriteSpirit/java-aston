@@ -1,4 +1,4 @@
-package hw1.animals;
+package ru.aston.hw1.animal;
 
 public class Whale extends Mammal implements Waterfowl {
 
@@ -8,7 +8,7 @@ public class Whale extends Mammal implements Waterfowl {
     }
 
     @Override
-    String getSpecies() {
+    public String getSpecies() {
         return "Cetacea";
     }
 }

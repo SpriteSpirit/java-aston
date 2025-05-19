@@ -1,6 +1,9 @@
-package hw1.vehicles;
+package ru.aston.hw1.vehicle;
 
-public class Speedboat extends Vehicle implements HasPropeller, CanCarryCargo {
+public class Truck extends Vehicle implements HasWheels, CanCarryCargo {
+
+    private static final int WHEEL_COUNT = 4;
+
     @Override
     public void loadCargo() {
         System.out.println(this.getClass().getName() + " load cargo");
@@ -12,12 +15,12 @@ public class Speedboat extends Vehicle implements HasPropeller, CanCarryCargo {
     }
 
     @Override
-    public boolean isStart() {
-        return false;
+    public int getWheelCount() {
+        return WHEEL_COUNT;
     }
 
     @Override
-    void move() {
+    public void move() {
         System.out.println(this.getClass().getName() + " start moving...");
     }
 }

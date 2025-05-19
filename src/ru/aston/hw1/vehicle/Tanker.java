@@ -1,6 +1,7 @@
-package hw1.vehicles;
+package ru.aston.hw1.vehicle;
 
 public class Tanker extends Vehicle implements HasPropeller, CanCarryCargo {
+
     @Override
     public void loadCargo() {
         System.out.println(this.getClass().getName() + " load cargo");
@@ -17,7 +18,7 @@ public class Tanker extends Vehicle implements HasPropeller, CanCarryCargo {
     }
 
     @Override
-    void move() {
-         System.out.println(this.getClass().getName() + " start moving...");
+    public void move() {
+        System.out.println(this.getClass().getName() + " start moving...");
     }
 }

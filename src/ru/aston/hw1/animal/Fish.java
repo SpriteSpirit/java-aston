@@ -1,6 +1,7 @@
-package hw1.animals;
+package ru.aston.hw1.animal;
 
-public class Fish extends Animal implements Vertebrate, Waterfowl{
+public class Fish extends Animal implements Vertebrate, Waterfowl {
+
     @Override
     public boolean hasSpine() {
         return true;
@@ -12,7 +13,7 @@ public class Fish extends Animal implements Vertebrate, Waterfowl{
     }
 
     @Override
-    String getSpecies() {
+    public String getSpecies() {
         return "Pisces";
     }
 }
