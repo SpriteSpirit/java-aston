@@ -1,28 +1,35 @@
-package hw2;
+package ru.aston.hw2;
 
 
 import java.util.LinkedList;
 
+/**
+ * Реализация аналога HashSet с двумя методами (вставить и удалить)
+ */
+
 public class MyHashSet<E> {
     // размер массива по умолчанию
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    // коэффициент загрузки
     private static final float LOAD_FACTOR = 0.75f;
     // массив ячеек связанного списка
-    private LinkedList[] buckets;
+    private LinkedList<E>[] buckets;
     // размер сета
     private int size;
     // пороговое значение
-    private int treshold;
+    private int threshold;
 
     /**
      * Конструктор.
      * Инициализация массива связным списком размера 16
      * Инициализация длины множества
+     * Инициализация порога
      * Заполнение ячеек массива связными списками
      */
+    @SuppressWarnings("unchecked")
     public MyHashSet() {
-        buckets = new LinkedList[DEFAULT_INITIAL_CAPACITY];
-        treshold = (int)(DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
+        buckets = (LinkedList<E>[]) new LinkedList[DEFAULT_INITIAL_CAPACITY];
+        threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
         size = 0;
 
         for (int i = 0; i < DEFAULT_INITIAL_CAPACITY; i++) {
@@ -31,7 +38,8 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Вычисляет индекс по формуле: модуль остатка от деления хешкода элемента на длину массива
+     * Вычисляет индекс по формуле: модуль остатка от деления хеш кода элемента на длину массива
+     *
      * @param element добавляемый элемент
      * @return индекс ячейки
      */
@@ -46,12 +54,14 @@ public class MyHashSet<E> {
      * Например, если изначальное количество ячеек в таблице равно 16, и коэффициент загрузки равен 0,75,
      * то из этого следует, что когда количество заполненных ячеек достигнет 12, их количество автоматически увеличится.
      */
+    @SuppressWarnings("unchecked")
     private void resize() {
         // сохранение старых ячеек
         LinkedList<E>[] oldBuckets = buckets;
         // увеличение размера в 2 раза
-        buckets = new LinkedList[oldBuckets.length * 2];
-        treshold = (int)(buckets.length * LOAD_FACTOR);
+        buckets = (LinkedList<E>[]) new LinkedList[oldBuckets.length * 2];
+        // обновление порога
+        threshold = (int) (buckets.length * LOAD_FACTOR);
 
         // инициализация новых ячеек
         for (int i = 0; i < buckets.length; i++) {
@@ -82,21 +92,19 @@ public class MyHashSet<E> {
      */
     public boolean insert(E element) {
         if (element == null) {
-            throw  new NullPointerException("Элемент не может быть null");
+            throw new NullPointerException("Элемент не может быть null");
+        }
+
+        if (size + 1 > threshold) {
+            // увеличить размер
+            resize();
         }
 
         int index = getBucketIndex(element);
-
         LinkedList<E> bucket = buckets[index];
 
         if (bucket.contains(element)) {
             return false;
-        }
-
-        if (++size > treshold) {
-            // увеличить размер
-            resize();
-
         }
 
         bucket.add(element);
@@ -122,14 +130,26 @@ public class MyHashSet<E> {
         return removed;
     }
 
-    public static void main(String[] args) {
-        MyHashSet<String> myHashSet = new MyHashSet<>();
-        System.out.println(myHashSet.insert("Hello"));
-        System.out.println(myHashSet.insert("world"));
-        System.out.println(myHashSet.insert("!"));
-        System.out.println(myHashSet.insert("Привет"));
+    /**
+     * Проверяет вхождение элемента в массив.
+     */
+    public boolean containsElement(E element) {
+        if (element == null) {
+            throw new NullPointerException("Элемент не может быть null");
+        }
 
-        System.out.println(myHashSet.remove("Привет!"));
+        int index = getBucketIndex(element);
+        return buckets[index].contains(element);
+    }
 
+    /**
+     * Вывод всех элементов массива
+     */
+    public void printAllElements() {
+        for (LinkedList<E> bucket : buckets) {
+            for (E element : bucket) {
+                System.out.println(element);
+            }
+        }
     }
 }
