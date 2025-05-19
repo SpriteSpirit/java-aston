@@ -8,6 +8,7 @@ import java.util.LinkedList;
  */
 
 public class MyHashSet<E> {
+
     // размер массива по умолчанию
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
     // коэффициент загрузки
@@ -20,11 +21,8 @@ public class MyHashSet<E> {
     private int threshold;
 
     /**
-     * Конструктор.
-     * Инициализация массива связным списком размера 16
-     * Инициализация длины множества
-     * Инициализация порога
-     * Заполнение ячеек массива связными списками
+     * Конструктор. Инициализация массива связным списком размера 16 Инициализация длины множества
+     * Инициализация порога Заполнение ячеек массива связными списками
      */
     @SuppressWarnings("unchecked")
     public MyHashSet() {
@@ -35,6 +33,41 @@ public class MyHashSet<E> {
         for (int i = 0; i < DEFAULT_INITIAL_CAPACITY; i++) {
             buckets[i] = new LinkedList<>();
         }
+    }
+
+    public static void main(String[] args) {
+        MyHashSet<String> myHashSet = new MyHashSet<>();
+        int load_capacity = 12;
+
+        // проверка изменения размера массива resize()
+        // заполнение до порога расширения
+        for (int i = 0; i < load_capacity; i++) { // 16 * 0.75 = 12
+            myHashSet.insert("item_" + i);
+        }
+
+        // добавление этого элемента вызовет resize()
+        myHashSet.insert("trigger_resize");
+        System.out.println(myHashSet.size);
+
+        myHashSet.printAllElements();
+
+        for (int i = 0; i < load_capacity; i++) {
+            System.out.println("item_" + i);
+            if (!myHashSet.containsElement("item_" + i) &&
+                !myHashSet.containsElement("trigger_resize")) {
+                throw new AssertionError("Элементы потеряны после изменения размера");
+            }
+        }
+
+        System.out.println(myHashSet.insert("Hello"));
+        System.out.println(myHashSet.insert("world"));
+        System.out.println(myHashSet.insert("!"));
+        System.out.println(myHashSet.insert("Привет"));
+
+        System.out.println(myHashSet.remove("Привет!"));
+
+        myHashSet.printAllElements();
+
     }
 
     /**
@@ -49,10 +82,10 @@ public class MyHashSet<E> {
 
     /**
      * Увеличивает размер массива в 2 раза от старого при достижении порогового значения
-     * нагрузочного коэффициента
-     * Коэффициент загрузки = Количество хранимых элементов в таблице / размер хэш-таблицы
-     * Например, если изначальное количество ячеек в таблице равно 16, и коэффициент загрузки равен 0,75,
-     * то из этого следует, что когда количество заполненных ячеек достигнет 12, их количество автоматически увеличится.
+     * нагрузочного коэффициента Коэффициент загрузки = Количество хранимых элементов в таблице /
+     * размер хэш-таблицы Например, если изначальное количество ячеек в таблице равно 16, и
+     * коэффициент загрузки равен 0,75, то из этого следует, что когда количество заполненных ячеек
+     * достигнет 12, их количество автоматически увеличится.
      */
     @SuppressWarnings("unchecked")
     private void resize() {
@@ -84,11 +117,10 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Реализует вставку элемента по быстрому поиску O(1)
-     * Вычисляет индекс элемента. Создает связанный список в ячейке массива по индексу.
-     * Проверяет, содержится ли элемент в списке. Если нет, то добавляет элемент в список
-     * и увеличивает размер списка на 1.
-     * Возвращает true, если элемент добавлен в список, false - если такой элемент уже есть в списке.
+     * Реализует вставку элемента по быстрому поиску O(1) Вычисляет индекс элемента. Создает
+     * связанный список в ячейке массива по индексу. Проверяет, содержится ли элемент в списке. Если
+     * нет, то добавляет элемент в список и увеличивает размер списка на 1. Возвращает true, если
+     * элемент добавлен в список, false - если такой элемент уже есть в списке.
      */
     public boolean insert(E element) {
         if (element == null) {
@@ -114,12 +146,14 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Удаляет элемент из массива. Если элемент null, то возвращает false.
-     * Получает индекс элемента и удаляет его из массива. Если удаление произошло, то уменьшает размер массива.
-     * Возвращает результат удаления: true (элемент удален) или false (элемент не удален).
+     * Удаляет элемент из массива. Если элемент null, то возвращает false. Получает индекс элемента
+     * и удаляет его из массива. Если удаление произошло, то уменьшает размер массива. Возвращает
+     * результат удаления: true (элемент удален) или false (элемент не удален).
      */
     public boolean remove(E element) {
-        if (element == null) return false;
+        if (element == null) {
+            return false;
+        }
 
         int index = getBucketIndex(element);
         boolean removed = buckets[index].remove(element);
