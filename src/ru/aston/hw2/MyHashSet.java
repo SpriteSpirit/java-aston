@@ -2,6 +2,7 @@ package ru.aston.hw2;
 
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * Реализация аналога HashSet с двумя методами (вставить и удалить)
@@ -117,32 +118,30 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Реализует вставку элемента по быстрому поиску O(1) Вычисляет индекс элемента. Создает
-     * связанный список в ячейке массива по индексу. Проверяет, содержится ли элемент в списке. Если
-     * нет, то добавляет элемент в список и увеличивает размер списка на 1. Возвращает true, если
-     * элемент добавлен в список, false - если такой элемент уже есть в списке.
+     * Реализует вставку элемента по быстрому поиску O(1). Поверяет пороговое значение, если
+     * превышено, то увеличивает размер в 2 раза. Вычисляет индекс элемента. Создает связный список
+     * в ячейке массива по индексу. Проверяет, содержится ли элемент в списке. Если нет, то
+     * добавляет элемент в список и увеличивает размер списка на 1. Возвращает true, если элемент
+     * добавлен в список, false - если элемент уже есть в списке. Бросает исключение, если элемент
+     * null.
      */
     public boolean insert(E element) {
-        if (element == null) {
-            throw new NullPointerException("Элемент не может быть null");
-        }
+        Objects.requireNonNull(element, "Элемент не может быть null");
 
         if (size + 1 > threshold) {
-            // увеличить размер
             resize();
         }
 
         int index = getBucketIndex(element);
         LinkedList<E> bucket = buckets[index];
+        boolean isNewElement = containsElement(element);
 
-        if (bucket.contains(element)) {
-            return false;
+        if (isNewElement) {
+            size++;
+            bucket.add(element);
         }
 
-        bucket.add(element);
-        size++;
-
-        return true;
+        return isNewElement;
     }
 
     /**
@@ -151,16 +150,14 @@ public class MyHashSet<E> {
      * результат удаления: true (элемент удален) или false (элемент не удален).
      */
     public boolean remove(E element) {
-        if (element == null) {
-            return false;
-        }
+        Objects.requireNonNull(element, "Элемент не может быть null");
 
         int index = getBucketIndex(element);
         boolean removed = buckets[index].remove(element);
 
-        if (removed) {
+        if (removed)
             size--;
-        }
+
         return removed;
     }
 
@@ -168,9 +165,7 @@ public class MyHashSet<E> {
      * Проверяет вхождение элемента в массив.
      */
     public boolean containsElement(E element) {
-        if (element == null) {
-            throw new NullPointerException("Элемент не может быть null");
-        }
+        Objects.requireNonNull(element, "Элемент не может быть null");
 
         int index = getBucketIndex(element);
         return buckets[index].contains(element);
