@@ -66,7 +66,7 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Инициализация ячеек
+     * Инициализация ячеек множества.
      */
     @SuppressWarnings("unchecked")
     private void initBuckets(int capacity) {
