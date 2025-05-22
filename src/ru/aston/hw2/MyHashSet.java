@@ -27,13 +27,8 @@ public class MyHashSet<E> {
      */
     @SuppressWarnings("unchecked")
     public MyHashSet() {
-        buckets = (LinkedList<E>[]) new LinkedList[DEFAULT_INITIAL_CAPACITY];
-        threshold = (int) (DEFAULT_INITIAL_CAPACITY * LOAD_FACTOR);
+        initBuckets(DEFAULT_INITIAL_CAPACITY);
         size = 0;
-
-        for (int i = 0; i < DEFAULT_INITIAL_CAPACITY; i++) {
-            buckets[i] = new LinkedList<>();
-        }
     }
 
     public static void main(String[] args) {
@@ -48,12 +43,11 @@ public class MyHashSet<E> {
 
         // добавление этого элемента вызовет resize()
         myHashSet.insert("trigger_resize");
-        System.out.println(myHashSet.size);
+        System.out.println(String.format("Размер hashSet: ", myHashSet.size));
 
         myHashSet.printAllElements();
 
         for (int i = 0; i < load_capacity; i++) {
-            System.out.println("item_" + i);
             if (!myHashSet.containsElement("item_" + i) &&
                 !myHashSet.containsElement("trigger_resize")) {
                 throw new AssertionError("Элементы потеряны после изменения размера");
@@ -66,9 +60,41 @@ public class MyHashSet<E> {
         System.out.println(myHashSet.insert("Привет"));
 
         System.out.println(myHashSet.remove("Привет!"));
+    }
 
-        myHashSet.printAllElements();
+    /**
+     * Инициализация ячеек
+     */
+    @SuppressWarnings("unchecked")
+    private void initBuckets(int capacity) {
+        buckets = (LinkedList<E>[]) new LinkedList[capacity];
+        threshold = (int) (capacity * LOAD_FACTOR);
 
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = new LinkedList<>();
+        }
+    }
+
+    private void checkResize() {
+        if (size + 1 > threshold) {
+            resize();
+        }
+    }
+
+    /**
+     * Получение ячейки по элементу
+     */
+    private LinkedList<E> getBucket(E element) {
+        Objects.requireNonNull(element, "Элемент не может быть null");
+
+        return buckets[getBucketIndex((element))];
+    }
+
+    /**
+     * Проверка существования элемента
+     */
+    private boolean isElementExist(E element, LinkedList<E> bucket) {
+        return bucket.contains(element);
     }
 
     /**
@@ -90,28 +116,16 @@ public class MyHashSet<E> {
      */
     @SuppressWarnings("unchecked")
     private void resize() {
-        // сохранение старых ячеек
         LinkedList<E>[] oldBuckets = buckets;
-        // увеличение размера в 2 раза
-        buckets = (LinkedList<E>[]) new LinkedList[oldBuckets.length * 2];
-        // обновление порога
-        threshold = (int) (buckets.length * LOAD_FACTOR);
+        initBuckets(oldBuckets.length * 2);
 
-        // инициализация новых ячеек
-        for (int i = 0; i < buckets.length; i++) {
-            buckets[i] = new LinkedList<>();
-        }
-
-        // сброс размера
         size = 0;
 
         // повторное хеширование всех элементов из старого массива
         for (LinkedList<E> bucket : oldBuckets) {
             for (E element : bucket) {
-                // добавление элемента в новый массив
-                int index = getBucketIndex(element);
-
-                buckets[index].add(element);
+                // добавление элемента и увеличение размера
+                getBucket(element).add(element);
                 size++;
             }
         }
@@ -126,22 +140,17 @@ public class MyHashSet<E> {
      * null.
      */
     public boolean insert(E element) {
-        Objects.requireNonNull(element, "Элемент не может быть null");
+        checkResize();
 
-        if (size + 1 > threshold) {
-            resize();
-        }
+        LinkedList<E> bucket = getBucket(element);
+        boolean elementExists = isElementExist(element, bucket);
 
-        int index = getBucketIndex(element);
-        LinkedList<E> bucket = buckets[index];
-        boolean isNewElement = containsElement(element);
-
-        if (isNewElement) {
-            size++;
+        if (!elementExists) {
             bucket.add(element);
+            size++;
         }
 
-        return isNewElement;
+        return !elementExists;
     }
 
     /**
@@ -150,13 +159,12 @@ public class MyHashSet<E> {
      * результат удаления: true (элемент удален) или false (элемент не удален).
      */
     public boolean remove(E element) {
-        Objects.requireNonNull(element, "Элемент не может быть null");
+        LinkedList<E> bucket = getBucket(element);
+        boolean removed = bucket.remove(element);
 
-        int index = getBucketIndex(element);
-        boolean removed = buckets[index].remove(element);
-
-        if (removed)
+        if (removed) {
             size--;
+        }
 
         return removed;
     }
@@ -165,10 +173,7 @@ public class MyHashSet<E> {
      * Проверяет вхождение элемента в массив.
      */
     public boolean containsElement(E element) {
-        Objects.requireNonNull(element, "Элемент не может быть null");
-
-        int index = getBucketIndex(element);
-        return buckets[index].contains(element);
+        return isElementExist(element, getBucket(element));
     }
 
     /**
