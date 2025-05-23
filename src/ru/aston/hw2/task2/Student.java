@@ -11,4 +11,12 @@ public class Student {
         this.name = name;
         this.books = books;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
 }
