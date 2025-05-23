@@ -75,4 +75,18 @@ public class MyArrayList<E> {
         elements[size++] = element;
     }
 
+    /**
+     * Добавляет элемент на указанную позицию по индексу.
+     *
+     * @param index   - индекс/позиция для вставки элемента
+     * @param element - элемент
+     */
+    private void add(int index, E element) {
+        checkIndex(index);
+        ensureCapacity(size + 1);
+        System.arraycopy(elements, index, elements, index + 1, size - index);
+        elements[index] = element;
+        size++;
+    }
+
 }
