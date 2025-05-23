@@ -19,4 +19,9 @@ public class Student {
     public List<Book> getBooks() {
         return books;
     }
+
+    @Override
+    public String toString() {
+        return "Студент: " + name + ".\nКоличество книг: " + books.size();
+    }
 }
