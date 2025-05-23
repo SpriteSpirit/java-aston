@@ -48,6 +48,7 @@ public class MyHashSet<E> {
         myHashSet.insert("trigger_resize");
         System.out.printf("Размер hashSet: %n", myHashSet.size);
 
+        System.out.println("Вывод всех элементов");
         myHashSet.printAllElements();
 
         for (int i = 0; i < load_capacity; i++) {
@@ -61,8 +62,11 @@ public class MyHashSet<E> {
         System.out.println(myHashSet.insert("world"));
         System.out.println(myHashSet.insert("!"));
         System.out.println(myHashSet.insert("Привет"));
+        System.out.println(myHashSet.insert("Привет"));
 
-        System.out.println(myHashSet.remove("Привет!"));
+        System.out.println(myHashSet.remove("!"));
+        System.out.println("Вывод элементов после удаления '!'");
+        myHashSet.printAllElements();
     }
 
     /**
