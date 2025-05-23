@@ -117,4 +117,20 @@ public class MyArrayList<E> {
         return (E) elements[index];
     }
 
+    /**
+     * Удаляет элемент по индексу.
+     *
+     * @param index - индекс/позиция удаляемого элемента.
+     * @return удаленный элемент.
+     */
+    @SuppressWarnings("unchecked")
+    private E remove(int index) {
+        checkIndex(index);
+        E removedElement = (E) elements[index];
+        System.arraycopy(elements, index + 1, elements, index, size - index - 1);
+        elements[--size] = null;
+
+        return removedElement;
+    }
+
 }
