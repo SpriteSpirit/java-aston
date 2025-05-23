@@ -1,13 +1,29 @@
 package ru.aston.hw2.task2;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-
 
 public class Main {
 
     public static void main(String[] args) {
         List<Student> students = getStudentList();
+
+        students.stream()
+            .peek(System.out::println) // вывод каждого студента
+            .flatMap(
+                student -> student.getBooks().stream()) // получение списка книг каждого студента
+            .sorted(Comparator.comparingInt(Book::getPages)) // сортировка по кол-ву страниц
+            .distinct() // только уникальные книги
+            .filter(
+                book -> book.getPublishedYear() > 2000) // фильтрация книг, выпущенных после 2000 г.
+            .limit(3) // стрим ограничивается 3 элементами
+            .findFirst() // метод короткого замыкания для получения Optional (возвращает первый элемент)
+            .ifPresentOrElse( // обработка Optional (если значение есть и если нет)
+                book -> System.out.println(
+                    "Год выпуска найденной книги: " + book.getPublishedYear()),
+                () -> System.out.println("Книга не найдена.")
+            );
     }
 
     private static List<Student> getStudentList() {
