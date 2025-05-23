@@ -2,6 +2,7 @@ package ru.aston.hw2;
 
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class MyArrayList<E> {
 
@@ -133,4 +134,29 @@ public class MyArrayList<E> {
         return removedElement;
     }
 
+    /**
+     * Добавляет коллекцию в массив.
+     *
+     * @param collection - коллекция для добавления
+     * @return true, если текущая коллекция изменилась (добавляемая коллекция не пуста). И false -
+     * если не изменилась (добавляемая коллекция пуста).
+     */
+    private boolean addAll(Collection<? extends E> collection) {
+        if (collection == null) {
+            throw new NullPointerException("Коллекция элементов не может быть null.");
+        }
+
+        Object[] collectionToArray = collection.toArray();
+        int arrayLength = collectionToArray.length;
+
+        if (arrayLength != 0) {
+            return false;
+        }
+
+        ensureCapacity(size + collection.size());
+        System.arraycopy(collectionToArray, 0, elements, size, arrayLength);
+        size += arrayLength;
+
+        return !collection.isEmpty();
+    }
 }
