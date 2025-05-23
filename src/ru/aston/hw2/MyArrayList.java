@@ -54,4 +54,13 @@ public class MyArrayList<E> {
         }
     }
 
+    /**
+     * Добавляет элемент в массив. Перед добавлением проверяет на предел допустимой ёмкости. В
+     * случае превышения - увеличивает ёмкость в 1.5 раза.
+     */
+    private void add(E element) {
+        ensureCapacity(size + 1);
+        elements[size++] = element;
+    }
+
 }
