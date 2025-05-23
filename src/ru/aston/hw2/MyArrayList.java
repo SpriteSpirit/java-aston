@@ -1,6 +1,8 @@
 package ru.aston.hw2;
 
 
+import java.util.Arrays;
+
 public class MyArrayList<E> {
 
     private Object[] elements;
@@ -31,4 +33,25 @@ public class MyArrayList<E> {
             throw new IllegalArgumentException("Ёмкость не может иметь отрицательное значение");
         }
     }
+
+    /**
+     * Проверяет ёмкость массива на случай превышения объема. Если объём превышен, то увеличивает
+     * ёмкость в 1.5 раза.
+     *
+     * @param minCapacity - минимальная ёмкость
+     */
+    private void ensureCapacity(int minCapacity) {
+        int oldCapacity = elements.length;
+
+        if (minCapacity > oldCapacity) {
+            int newCapacity = oldCapacity + (oldCapacity >> 1);
+
+            if (newCapacity < minCapacity) {
+                newCapacity = minCapacity;
+            }
+
+            elements = Arrays.copyOf(elements, newCapacity);
+        }
+    }
+
 }
