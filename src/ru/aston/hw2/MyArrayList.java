@@ -89,4 +89,20 @@ public class MyArrayList<E> {
         size++;
     }
 
+    /**
+     * Возвращает размер массива.
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Проверяет размер на нулевое значение.
+     *
+     * @return true, если размер нулевой и false, если нет.
+     */
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
 }
