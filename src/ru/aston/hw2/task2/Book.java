@@ -51,4 +51,8 @@ public class Book {
             Objects.equals(author, book.author);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author, pages, publishedYear);
+    }
 }
