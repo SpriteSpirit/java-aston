@@ -105,4 +105,16 @@ public class MyArrayList<E> {
         return size == 0;
     }
 
+    /**
+     * Возвращает элемент по индексу.
+     *
+     * @param index - индекс/позиция искомого элемента.
+     * @return найденный элемент.
+     */
+    @SuppressWarnings("unchecked")
+    private E get(int index) {
+        checkIndex(index);
+        return (E) elements[index];
+    }
+
 }
