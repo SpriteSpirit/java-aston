@@ -54,6 +54,18 @@ public class MyArrayList<E> {
         }
     }
 
+
+    /**
+     * Проверяет, что индекс не выходит за пределы допустимых значений.
+     *
+     * @param index - индекс элемента.
+     */
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
+
     /**
      * Добавляет элемент в массив. Перед добавлением проверяет на предел допустимой ёмкости. В
      * случае превышения - увеличивает ёмкость в 1.5 раза.
