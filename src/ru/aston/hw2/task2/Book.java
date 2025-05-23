@@ -1,6 +1,8 @@
 package ru.aston.hw2.task2;
 
 
+import java.util.Objects;
+
 public class Book {
 
     private final String author;
@@ -31,4 +33,22 @@ public class Book {
     public int getPublishedYear() {
         return publishedYear;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || object.getClass() != getClass()) {
+            return false;
+        }
+
+        Book book = (Book) object;
+
+        return publishedYear == book.publishedYear && pages == book.pages &&
+            Objects.equals(title, book.title) &&
+            Objects.equals(author, book.author);
+    }
+
 }
