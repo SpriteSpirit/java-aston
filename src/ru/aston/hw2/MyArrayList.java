@@ -6,9 +6,9 @@ import java.util.Collection;
 
 public class MyArrayList<E> {
 
-    private Object[] elements;
     private static final int DEFAULT_CAPACITY = 10;
     private static final Object[] EMPTY_ELEMENT_DATA = {};
+    private Object[] elements;
     private int size;
 
     /**
