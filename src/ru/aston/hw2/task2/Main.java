@@ -18,10 +18,11 @@ public class Main {
             .filter(
                 book -> book.getPublishedYear() > 2000) // фильтрация книг, выпущенных после 2000 г.
             .limit(3) // стрим ограничивается 3 элементами
+            .map(Book::getPublishedYear) // получение годов выпуска
             .findFirst() // метод короткого замыкания для получения Optional (возвращает первый элемент)
             .ifPresentOrElse( // обработка Optional (если значение есть и если нет)
-                book -> System.out.println(
-                    "Год выпуска найденной книги: " + book.getPublishedYear()),
+                publishedYear -> System.out.println(
+                    "Год выпуска найденной книги: " + publishedYear),
                 () -> System.out.println("Книга не найдена.")
             );
     }
