@@ -27,7 +27,17 @@ public class Main {
         processReading(fileOperations);
     }
 
+    /**
+     * Записывает список строк в файл.
+     *
+     * @param operations Объект для выполнения операций с фалом.
+     * @param list       Список строк для записи в файл, не должен быть null.
+     */
     public static void processWriting(FileOperations operations, List<String> list) {
+        if (list == null) {
+            throw new IllegalArgumentException("Список не может быть пуст");
+        }
+
         try {
             operations.writeToFile(list);
         } catch (FileOperationException e) {
@@ -39,6 +49,11 @@ public class Main {
         }
     }
 
+    /**
+     * Считывает данные из файла. Исключаются пустые строки из вывода.
+     *
+     * @param operations Объект для выполнения операций с фалом.
+     */
     public static void processReading(FileOperations operations) {
         try {
             List<String> lines = operations.readFromFile();
