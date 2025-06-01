@@ -1,6 +1,7 @@
 package ru.aston.hw2.task2;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Student {
 
@@ -22,6 +23,11 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Студент: " + name + ".\nКоличество книг: " + books.size();
+        return "Студент: " + name + ".\n"
+            + "Количество книг: " + books.size() + "\n"
+            + "Книги:\n" + books.stream()
+            .distinct()
+            .map(Book::toString)
+            .collect(Collectors.joining("\n"));
     }
 }
