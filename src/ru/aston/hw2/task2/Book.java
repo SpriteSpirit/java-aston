@@ -17,7 +17,6 @@ public class Book {
         this.publishedYear = publishedYear;
     }
 
-    // геттеры
     public String getAuthor() {
         return author;
     }
@@ -36,23 +35,33 @@ public class Book {
 
     @Override
     public boolean equals(Object object) {
+        boolean isEqual = false;
+
         if (this == object) {
-            return true;
+            isEqual = true;
+        } else if (object != null && object.getClass() == getClass()) {
+            Book book = (Book) object;
+
+            isEqual = publishedYear == book.publishedYear && pages == book.pages &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author);
         }
-
-        if (object == null || object.getClass() != getClass()) {
-            return false;
-        }
-
-        Book book = (Book) object;
-
-        return publishedYear == book.publishedYear && pages == book.pages &&
-            Objects.equals(title, book.title) &&
-            Objects.equals(author, book.author);
+        return isEqual;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(title, author, pages, publishedYear);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "Author: %s, Title: %s, Year: %d, Pages: %d",
+            getAuthor(),
+            getTitle(),
+            getPublishedYear(),
+            getPages()
+        );
     }
 }
