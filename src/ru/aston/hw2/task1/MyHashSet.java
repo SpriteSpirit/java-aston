@@ -153,7 +153,7 @@ public class MyHashSet<E> {
      */
     public void printAllElements() {
         if (size == 0) {
-            logger.info("HasSet пуст");
+            logger.info("HashSet пуст");
         }
 
         String elements = Arrays.stream(buckets)
