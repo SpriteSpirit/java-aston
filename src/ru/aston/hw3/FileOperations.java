@@ -23,7 +23,7 @@ public class FileOperations {
     /**
      * Конструктор, принимающий путь к файлу.
      *
-     * @param filePath - путь к файлу.
+     * @param filePath Путь к файлу.
      */
     public FileOperations(String filePath) {
         this.filePath = filePath;
