@@ -51,7 +51,9 @@ public class MyArrayList<E> {
                 newCapacity = minCapacity;
             }
 
-            elements = Arrays.copyOf(elements, newCapacity);
+            Object[] newElements = new Object[newCapacity];
+            System.arraycopy(elements, 0, newElements, 0, oldCapacity);
+            elements = newElements;
         }
     }
 
@@ -71,7 +73,7 @@ public class MyArrayList<E> {
      * Добавляет элемент в массив. Перед добавлением проверяет на предел допустимой ёмкости. В
      * случае превышения - увеличивает ёмкость в 1.5 раза.
      */
-    private void add(E element) {
+    public void add(E element) {
         ensureCapacity(size + 1);
         elements[size++] = element;
     }
@@ -82,7 +84,7 @@ public class MyArrayList<E> {
      * @param index   - индекс/позиция для вставки элемента
      * @param element - элемент
      */
-    private void add(int index, E element) {
+    public void add(int index, E element) {
         checkIndex(index);
         ensureCapacity(size + 1);
         System.arraycopy(elements, index, elements, index + 1, size - index);
@@ -113,7 +115,7 @@ public class MyArrayList<E> {
      * @return найденный элемент.
      */
     @SuppressWarnings("unchecked")
-    private E get(int index) {
+    public E get(int index) {
         checkIndex(index);
         return (E) elements[index];
     }
@@ -125,7 +127,7 @@ public class MyArrayList<E> {
      * @return удаленный элемент.
      */
     @SuppressWarnings("unchecked")
-    private E remove(int index) {
+    public E remove(int index) {
         checkIndex(index);
         E removedElement = (E) elements[index];
         System.arraycopy(elements, index + 1, elements, index, size - index - 1);
@@ -138,25 +140,29 @@ public class MyArrayList<E> {
      * Добавляет коллекцию в массив.
      *
      * @param collection - коллекция для добавления
-     * @return true, если текущая коллекция изменилась (добавляемая коллекция не пуста). И false -
-     * если не изменилась (добавляемая коллекция пуста).
+     * @return true, если список изменился (добавлены элементы), false, если коллекция пуста
+     * @throws NullPointerException если коллекция равна null
      */
-    private boolean addAll(Collection<? extends E> collection) {
+    public boolean addAll(Collection<? extends E> collection) {
         if (collection == null) {
-            throw new NullPointerException("Коллекция элементов не может быть null.");
+            throw new NullPointerException("Коллекция не может быть null.");
         }
 
         Object[] collectionToArray = collection.toArray();
         int arrayLength = collectionToArray.length;
-
-        if (arrayLength != 0) {
-            return false;
-        }
 
         ensureCapacity(size + collection.size());
         System.arraycopy(collectionToArray, 0, elements, size, arrayLength);
         size += arrayLength;
 
         return !collection.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "MyArrayList{" +
+            "elements=" + Arrays.toString(elements) +
+            ", size=" + size +
+            '}';
     }
 }
