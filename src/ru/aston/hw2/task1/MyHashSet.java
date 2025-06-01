@@ -1,8 +1,12 @@
 package ru.aston.hw2.task1;
 
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Реализация аналога HashSet с двумя методами (вставить и удалить). HashSet состоит из массива
@@ -12,15 +16,11 @@ import java.util.Objects;
 
 public class MyHashSet<E> {
 
-    // размер массива по умолчанию
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
-    // коэффициент загрузки
     private static final float LOAD_FACTOR = 0.75f;
-    // массив ячеек связанного списка
-    private LinkedList<E>[] buckets;
-    // размер сета
+    static Logger logger = Logger.getLogger(MyHashSet.class.getName());
+    private List<E>[] buckets;
     private int size;
-    // пороговое значение
     private int threshold;
 
     /**
@@ -28,57 +28,34 @@ public class MyHashSet<E> {
      * Инициализирует массив ячеек buckets связными списками. Порог threshold вычисляется как
      * вместимость * коэффициент загрузки.
      */
-    @SuppressWarnings("unchecked")
     public MyHashSet() {
-        initBuckets(DEFAULT_INITIAL_CAPACITY);
+        initializeBuckets(DEFAULT_INITIAL_CAPACITY);
+        logger.info("Объем HashSet: " + DEFAULT_INITIAL_CAPACITY);
         size = 0;
     }
 
-    public static void main(String[] args) {
-        MyHashSet<String> myHashSet = new MyHashSet<>();
-        int load_capacity = 12;
+    public int getSize() {
+        return size;
+    }
 
-        // проверка изменения размера массива resize()
-        // заполнение до порога расширения
-        for (int i = 0; i < load_capacity; i++) { // 16 * 0.75 = 12
-            myHashSet.insert("item_" + i);
-        }
-
-        // добавление этого элемента вызовет resize()
-        myHashSet.insert("trigger_resize");
-        System.out.printf("Размер hashSet: %n", myHashSet.size);
-
-        System.out.println("Вывод всех элементов");
-        myHashSet.printAllElements();
-
-        for (int i = 0; i < load_capacity; i++) {
-            if (!myHashSet.containsElement("item_" + i) &&
-                !myHashSet.containsElement("trigger_resize")) {
-                throw new AssertionError("Элементы потеряны после изменения размера");
-            }
-        }
-
-        System.out.println(myHashSet.insert("Hello"));
-        System.out.println(myHashSet.insert("world"));
-        System.out.println(myHashSet.insert("!"));
-        System.out.println(myHashSet.insert("Привет"));
-        System.out.println(myHashSet.insert("Привет"));
-
-        System.out.println(myHashSet.remove("!"));
-        System.out.println("Вывод элементов после удаления '!'");
-        myHashSet.printAllElements();
+    public int getThreshold() {
+        return threshold;
     }
 
     /**
      * Инициализация ячеек множества.
      */
     @SuppressWarnings("unchecked")
-    private void initBuckets(int capacity) {
-        buckets = (LinkedList<E>[]) new LinkedList[capacity];
+    private void initializeBuckets(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Ёмкость ен может быть отрицательной.");
+        }
+
+        buckets = new List[capacity];
         threshold = (int) (capacity * LOAD_FACTOR);
 
         for (int i = 0; i < capacity; i++) {
-            buckets[i] = new LinkedList<>();
+            buckets[i] = new ArrayList<>();
         }
     }
 
@@ -94,16 +71,16 @@ public class MyHashSet<E> {
     /**
      * Возвращает ячейку (bucket), в которой находится элемент. Элемент не может быть null.
      */
-    private LinkedList<E> getBucket(E element) {
+    private List<E> getBucket(E element) {
         Objects.requireNonNull(element, "Элемент не может быть null");
 
-        return buckets[getBucketIndex((element))];
+        return buckets[getBucketIndex(element)];
     }
 
     /**
      * Проверка наличия элемента в ячейке.
      */
-    private boolean isElementExist(E element, LinkedList<E> bucket) {
+    private boolean isElementExist(E element, List<E> bucket) {
         return bucket.contains(element);
     }
 
@@ -118,21 +95,18 @@ public class MyHashSet<E> {
      * Увеличивает вместимость множества в 2 раза и выполняет перехеширование всех элементов.
      * Вызывается автоматически при достижении порогового значения (capacity * LOAD_FACTOR).
      */
-    @SuppressWarnings("unchecked")
     private void resize() {
-        LinkedList<E>[] oldBuckets = buckets;
-        initBuckets(oldBuckets.length * 2);
+        List<E>[] oldBuckets = buckets;
+        initializeBuckets(oldBuckets.length * 2);
 
         size = 0;
 
-        // повторное хеширование всех элементов из старого массива
-        for (LinkedList<E> bucket : oldBuckets) {
-            for (E element : bucket) {
-                // добавление элемента и увеличение размера
+        Arrays.stream(oldBuckets)
+            .flatMap(List::stream)
+            .forEach(element -> {
                 getBucket(element).add(element);
                 size++;
-            }
-        }
+            });
     }
 
     /**
@@ -142,7 +116,7 @@ public class MyHashSet<E> {
     public boolean insert(E element) {
         checkResize();
 
-        LinkedList<E> bucket = getBucket(element);
+        List<E> bucket = getBucket(element);
         boolean elementExists = isElementExist(element, bucket);
 
         if (!elementExists) {
@@ -157,7 +131,7 @@ public class MyHashSet<E> {
      * Удаляет элемент из множества, если он найден. Элемент для удаления не может быть null.
      */
     public boolean remove(E element) {
-        LinkedList<E> bucket = getBucket(element);
+        List<E> bucket = getBucket(element);
         boolean removed = bucket.remove(element);
 
         if (removed) {
@@ -168,20 +142,34 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Проверяет вхождение элемента во множество. Элемент для проверки не может быть null.
+     * Проверяет, отсутствует ли элемент. Элемент для проверки не может быть null.
      */
-    public boolean containsElement(E element) {
-        return isElementExist(element, getBucket(element));
+    public boolean doesNotContainsElement(E element) {
+        return !isElementExist(element, getBucket(element));
     }
 
     /**
      * Вывод всех элементов множества для отладки.
      */
     public void printAllElements() {
-        for (LinkedList<E> bucket : buckets) {
-            for (E element : bucket) {
-                System.out.println(element);
-            }
+        if (size == 0) {
+            logger.info("HasSet пуст");
         }
+
+        String elements = Arrays.stream(buckets)
+            .flatMap(List::stream)
+            .map(element -> "- " + element)
+            .collect(Collectors.joining("\n", "Содержимое HashSet:\n", ""));
+
+        logger.info(elements);
+    }
+
+    @Override
+    public String toString() {
+        return "MyHashSet{" +
+            "buckets=" + Arrays.toString(buckets) +
+            ", size=" + getSize() +
+            ", threshold=" + getThreshold() +
+            '}';
     }
 }
