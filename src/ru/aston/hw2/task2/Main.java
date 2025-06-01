@@ -1,30 +1,31 @@
 package ru.aston.hw2.task2;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Main {
 
+    private static final int YEAR_FILTER = 2_000;
+    private static final int BOOK_LIMIT = 3;
+    private static final Comparator<Book> PAGE_COMPARATOR = Comparator.comparingInt(Book::getPages);
+    static Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
+
         List<Student> students = getStudentList();
 
         students.stream()
-            .peek(System.out::println) // вывод каждого студента
-            .flatMap(
-                student -> student.getBooks().stream()) // получение списка книг каждого студента
-            .sorted(Comparator.comparingInt(Book::getPages)) // сортировка по кол-ву страниц
-            .distinct() // только уникальные книги
-            .filter(
-                book -> book.getPublishedYear() > 2000) // фильтрация книг, выпущенных после 2000 г.
-            .limit(3) // стрим ограничивается 3 элементами
-            .map(Book::getPublishedYear) // получение годов выпуска
-            .findFirst() // метод короткого замыкания для получения Optional (возвращает первый элемент)
-            .ifPresentOrElse( // обработка Optional (если значение есть и если нет)
-                publishedYear -> System.out.println(
-                    "Год выпуска найденной книги: " + publishedYear),
-                () -> System.out.println("Книга не найдена.")
-            );
+            .flatMap(student -> student.getBooks().stream())
+            .sorted(PAGE_COMPARATOR)
+            .distinct()
+            .filter(book -> book.getPublishedYear() > YEAR_FILTER)
+            .limit(BOOK_LIMIT)
+            .map(Book::getPublishedYear)
+            .findFirst()
+            .ifPresentOrElse(
+                publishedYear -> logger.info("Год выпуска найденной книги: " + publishedYear),
+                () -> logger.info("Книга не найдена."));
     }
 
     private static List<Student> getStudentList() {
@@ -39,15 +40,12 @@ public class Main {
         Book book9 = new Book("James Gray", "Database Systems", 800, 2007);
         Book book10 = new Book("Linus Torvalds", "Operating Systems", 900, 2004);
 
-        List<Student> students = Arrays.asList(
-            new Student("Гоша", Arrays.asList(book1, book2, book3, book4, book5)),
-            new Student("Гриша", Arrays.asList(book6, book7, book8, book9, book10)),
-            new Student("Даниил", Arrays.asList(book7, book1, book8, book3, book10)),
-            new Student("Маша", Arrays.asList(book1, book7, book8, book9, book10)),
-            new Student("Даша", Arrays.asList(book6, book1, book7, book9, book3)),
-            new Student("Катя", Arrays.asList(book5, book7, book1, book7, book10))
-        );
-
-        return students;
+        return List.of(
+            new Student("Гоша", List.of(book1, book2, book3, book4, book5)),
+            new Student("Гриша", List.of(book6, book7, book8, book9, book10)),
+            new Student("Даниил", List.of(book7, book1, book8, book3, book10)),
+            new Student("Маша", List.of(book1, book7, book8, book9, book10)),
+            new Student("Даша", List.of(book6, book1, book7, book9, book3)),
+            new Student("Катя", List.of(book5, book7, book1, book7, book10)));
     }
 }
