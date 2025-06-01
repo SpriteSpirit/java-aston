@@ -2,7 +2,9 @@ package ru.aston.hw3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -22,6 +24,7 @@ public class Main {
         dataList.add("Третья строка");
 
         processWriting(fileOperations, dataList);
+        processReading(fileOperations);
     }
 
     public static void processWriting(FileOperations operations, List<String> list) {
@@ -29,6 +32,24 @@ public class Main {
             operations.writeToFile(list);
         } catch (FileOperationException e) {
             logger.severe("Ошибка при записи: " + e.getMessage());
+
+            if (e.getCause() != null) {
+                logger.severe("Причина ошибки: " + e.getCause().getMessage());
+            }
+        }
+    }
+
+    public static void processReading(FileOperations operations) {
+        try {
+            List<String> lines = operations.readFromFile();
+
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info(String.format("Данные файла:%n%s", lines.stream()
+                    .filter(line -> !line.isEmpty())
+                    .collect(Collectors.joining(System.lineSeparator()))));
+            }
+        } catch (FileOperationException e) {
+            logger.severe("Ошибка при чтении: " + e.getMessage());
 
             if (e.getCause() != null) {
                 logger.severe("Причина ошибки: " + e.getCause().getMessage());
