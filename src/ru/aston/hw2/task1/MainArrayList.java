@@ -64,7 +64,7 @@ public class MainArrayList {
         if (logger.isLoggable(Level.INFO)) {
             boolean added = arrayList.addAll(collection);
 
-            logger.info(String.format("Добавление коллекции: %s. текущий размер списка: %d",
+            logger.info(String.format("Добавление коллекции: %s. Текущий размер списка: %d",
                 added,
                 arrayList.size()
             ));
