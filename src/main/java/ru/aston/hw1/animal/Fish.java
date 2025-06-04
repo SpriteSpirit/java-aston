@@ -1,4 +1,4 @@
-package ru.aston.hw1.animal;
+package main.java.ru.aston.hw1.animal;
 
 public class Fish extends Animal implements Vertebrate, Waterfowl {
 

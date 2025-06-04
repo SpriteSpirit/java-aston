@@ -1,4 +1,4 @@
-package ru.aston.hw1.vehicle;
+package main.java.ru.aston.hw1.vehicle;
 
 public class Tanker extends Vehicle implements HasPropeller, CanCarryCargo {
 

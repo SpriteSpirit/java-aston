@@ -1,6 +1,6 @@
-package ru.aston.hw1.animal;
+package main.java.ru.aston.hw1.animal;
 
-public class Cat extends Mammal implements FurBearing {
+public class Bear extends Mammal implements FurBearing {
 
     @Override
     public boolean hasFur() {
@@ -9,6 +9,6 @@ public class Cat extends Mammal implements FurBearing {
 
     @Override
     public String getSpecies() {
-        return "Felis catus";
+        return "Ursus";
     }
 }

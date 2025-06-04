@@ -1,8 +1,6 @@
-package ru.aston.hw1.vehicle;
+package main.java.ru.aston.hw1.vehicle;
 
-public class Plane extends Vehicle implements HasWheels, HasPropeller, HasWings, CanCarryCargo {
-
-    private static final int WHEEL_COUNT = 2;
+public class Speedboat extends Vehicle implements HasPropeller, CanCarryCargo {
 
     @Override
     public void loadCargo() {
@@ -17,16 +15,6 @@ public class Plane extends Vehicle implements HasWheels, HasPropeller, HasWings,
     @Override
     public boolean isStart() {
         return false;
-    }
-
-    @Override
-    public int getWheelCount() {
-        return WHEEL_COUNT;
-    }
-
-    @Override
-    public String wingType() {
-        return "Straight";
     }
 
     @Override

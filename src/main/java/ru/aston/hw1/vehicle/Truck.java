@@ -1,8 +1,8 @@
-package ru.aston.hw1.vehicle;
+package main.java.ru.aston.hw1.vehicle;
 
-public class Helicopter extends Vehicle implements HasWheels, HasPropeller, CanCarryCargo {
+public class Truck extends Vehicle implements HasWheels, CanCarryCargo {
 
-    private static final int WHEEL_COUNT = 2;
+    private static final int WHEEL_COUNT = 4;
 
     @Override
     public void loadCargo() {
@@ -12,11 +12,6 @@ public class Helicopter extends Vehicle implements HasWheels, HasPropeller, CanC
     @Override
     public void unloadCargo() {
         System.out.println(this.getClass().getName() + " unload cargo");
-    }
-
-    @Override
-    public boolean isStart() {
-        return true;
     }
 
     @Override
