@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tT] [%4$-7s] %5$s %n");
 
-        String filePath = "src/ru/aston/hw3/example-file.txt";
+        String filePath = "src/main/resources/ru/aston/hw3/example-file.txt";
         FileOperations fileOperations = new FileOperations(filePath);
 
         List<String> dataList = new ArrayList<>();

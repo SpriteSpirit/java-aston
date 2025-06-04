@@ -1,4 +1,4 @@
-package ru.aston.hw2.task1;
+package main.java.ru.aston.hw2.task1;
 
 
 import java.util.ArrayList;
@@ -43,8 +43,8 @@ public class MyHashSet<E> {
     }
 
     /**
-     * Инициализирует массив ячеек при создании или расширении множества.
-     * Создает массив списков заданной емкости и вычисляет порог для автоматического расширения.
+     * Инициализирует массив ячеек при создании или расширении множества. Создает массив списков
+     * заданной емкости и вычисляет порог для автоматического расширения.
      */
     @SuppressWarnings("unchecked")
     private void initializeBuckets(int capacity) {

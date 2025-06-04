@@ -1,4 +1,4 @@
-package ru.aston.hw2.task2;
+package main.java.ru.aston.hw2.task2;
 
 
 import java.util.Objects;

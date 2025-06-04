@@ -239,7 +239,7 @@ println(name.toUpperCase()));
 
 ## Пример использования
 
-В коде `ru.aston.hw2.task2` используется `Optional` в методе `main`:
+В коде `main.java.ru.aston.hw2.task2` используется `Optional` в методе `main`:
 
 ```java
 students.stream()
