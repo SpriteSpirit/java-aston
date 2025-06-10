@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tT] [%4$-7s] %5$s %n");
 
-        final int TIME_SLEEP = 1000;
+        final int TIME_SLEEP_MS = 1000;
 
         TwoThreads twoThreads = new TwoThreads();
 
@@ -18,7 +18,7 @@ public class Main {
         new Thread(twoThreads::captureThread2, "Thread-2").start();
 
         try {
-            Thread.sleep(TIME_SLEEP);
+            Thread.sleep(TIME_SLEEP_MS);
             twoThreads.stop();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, "Ошибка прерывания.", e);
