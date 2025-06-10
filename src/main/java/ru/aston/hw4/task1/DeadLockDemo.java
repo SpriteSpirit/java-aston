@@ -4,13 +4,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Класс, имитирующий работу DeadLock - взаимной блокировки. Содержит внутренний record
+ * Класс, имитирующий работу DeadLockDemo - взаимной блокировки. Содержит внутренний record
  * {@link Friend}, который демонстрирует ситуацию взаимной блокировки при вызове методов
  * {@link Friend#handshake(Friend)} и {@link Friend#handshakeBack(Friend)}
  */
-public class DeadLock {
+public class DeadLockDemo {
 
-    private static final Logger logger = Logger.getLogger(DeadLock.class.getName());
+    private static final Logger logger = Logger.getLogger(DeadLockDemo.class.getName());
 
 
     /**

@@ -1,7 +1,7 @@
 package main.java.ru.aston.hw4.task1;
 
 
-import main.java.ru.aston.hw4.task1.DeadLock.Friend;
+import main.java.ru.aston.hw4.task1.DeadLockDemo.Friend;
 
 public class MainDeadLock {
 
