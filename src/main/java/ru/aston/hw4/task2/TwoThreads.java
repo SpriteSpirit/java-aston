@@ -41,12 +41,12 @@ public class TwoThreads {
             lock.lock();
 
             try {
-                if (!isFirstTurn) {
-                    condition.await();
-                }
-
                 if (!isRunning) {
                     break;
+                }
+
+                if (!isFirstTurn) {
+                    condition.await();
                 }
 
                 loggerInfo(threadName, "1");
@@ -72,6 +72,10 @@ public class TwoThreads {
             lock.lock();
 
             try {
+                if (!isRunning) {
+                    break;
+                }
+
                 if (isFirstTurn) {
                     condition.await();
                 }
