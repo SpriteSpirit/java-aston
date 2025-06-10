@@ -1,4 +1,4 @@
-package main.java.ru.aston.hw3;
+package ru.aston.hw3;
 
 
 import java.io.BufferedReader;

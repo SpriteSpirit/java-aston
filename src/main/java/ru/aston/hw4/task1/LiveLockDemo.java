@@ -1,4 +1,4 @@
-package main.java.ru.aston.hw4.task1;
+package ru.aston.hw4.task1;
 
 
 import java.util.concurrent.TimeUnit;

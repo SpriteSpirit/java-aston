@@ -1,4 +1,4 @@
-package main.java.ru.aston.hw4.task2;
+package ru.aston.hw4.task2;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

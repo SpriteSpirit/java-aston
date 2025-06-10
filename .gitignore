@@ -29,3 +29,17 @@ bin/
 .DS_Store
 /.idea/
 /java-aston.iml
+# Игнорировать папку target Maven
+target/
+**/target/
+/target/
+
+# Для Gradle (если используется)
+build/
+**/build/
+
+# Дополнительно (кеш IDE, логи и т.д.)
+.idea/
+*.iml
+*.log
+
