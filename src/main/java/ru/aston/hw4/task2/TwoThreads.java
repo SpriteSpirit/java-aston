@@ -62,6 +62,33 @@ public class TwoThreads {
         }
     }
 
+    /**
+     * Выполнение второго потока, который выводит "2".
+     */
+    public void captureThread2() {
+        String threadName = "Thread2";
+
+        while (isRunning) {
+            lock.lock();
+
+            try {
+                if (isFirstTurn) {
+                    condition.await();
+                }
+
+                loggerInfo(threadName, "2");
+                isFirstTurn = true;
+                // отправление сигнала первому потоку.
+                condition.signal();
+            } catch (InterruptedException e) {
+                logger.log(Level.WARNING, "Поток 2 прерван.", e);
+                Thread.currentThread().interrupt();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
 
     /**
      * Возвращает строковое представление объекта.
