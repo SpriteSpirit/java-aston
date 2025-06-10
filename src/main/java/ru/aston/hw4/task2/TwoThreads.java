@@ -89,6 +89,21 @@ public class TwoThreads {
         }
     }
 
+    /**
+     * Останавливает выполнение всех потоков.
+     */
+    public void stop() {
+        lock.lock();
+
+        try {
+            isRunning = false;
+            // снятие блокировки со всех потоков.
+            condition.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
 
     /**
      * Возвращает строковое представление объекта.
