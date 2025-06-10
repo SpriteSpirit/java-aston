@@ -1,4 +1,4 @@
-package main.java.ru.aston.hw2.task2;
+package ru.aston.hw2.task2;
 
 import java.util.Comparator;
 import java.util.List;

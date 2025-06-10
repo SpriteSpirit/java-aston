@@ -1,4 +1,4 @@
-package main.java.ru.aston.hw2.task1;
+package ru.aston.hw2.task1;
 
 import java.util.ArrayList;
 import java.util.Collection;

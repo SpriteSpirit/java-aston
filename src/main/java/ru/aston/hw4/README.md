@@ -25,7 +25,7 @@ class Task implements Runnable {
     }
 }
 
-public class Main {
+public class main.Main {
 
     public static void main(String[] args) {
         Thread thread1 = new Thread(new Task());
@@ -180,7 +180,7 @@ class Counter {
     }
 }
 
-public class Main {
+public class main.Main {
 
     public static void main(String[] args) throws InterruptedException {
         Counter counter = new Counter();
@@ -246,7 +246,7 @@ class Counter {
     }
 }
 
-public class Main {
+public class main.Main {
 
     public static void main(String[] args) throws InterruptedException {
         Counter counter = new Counter();
@@ -309,7 +309,7 @@ class ConnectionPool {
     }
 }
 
-public class Main {
+public class main.Main {
 
     public static void main(String[] args) {
         ConnectionPool pool = new ConnectionPool();
