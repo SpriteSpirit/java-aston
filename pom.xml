@@ -6,6 +6,16 @@
 
   <!-- Ваши координаты проекта -->
   <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>22</source>
+          <target>22</target>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+    </plugins>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -16,16 +26,6 @@
         </includes>
       </resource>
     </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>22</source>
-          <target>22</target>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
   <groupId>ru.aston</groupId>
   <modelVersion>4.0.0</modelVersion>

@@ -3,35 +3,7 @@ package ru.aston.hw2.task2;
 
 import java.util.Objects;
 
-public class Book {
-
-    private final String author;
-    private final String title;
-    private final int pages;
-    private final int publishedYear;
-
-    public Book(String author, String title, int pages, int publishedYear) {
-        this.author = author;
-        this.title = title;
-        this.pages = pages;
-        this.publishedYear = publishedYear;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public int getPublishedYear() {
-        return publishedYear;
-    }
+public record Book(String author, String title, int pages, int publishedYear) {
 
     @Override
     public boolean equals(Object object) {
@@ -50,18 +22,13 @@ public class Book {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(title, author, pages, publishedYear);
-    }
-
-    @Override
     public String toString() {
         return String.format(
             "Author: %s, Title: %s, Year: %d, Pages: %d",
-            getAuthor(),
-            getTitle(),
-            getPublishedYear(),
-            getPages()
+            author(),
+            title(),
+            publishedYear(),
+            pages()
         );
     }
 }

@@ -6,22 +6,22 @@ import java.util.logging.Logger;
 
 public class Main {
 
+    static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int YEAR_FILTER = 2_000;
     private static final int BOOK_LIMIT = 3;
-    private static final Comparator<Book> PAGE_COMPARATOR = Comparator.comparingInt(Book::getPages);
-    static Logger logger = Logger.getLogger(Main.class.getName());
+    private static final Comparator<Book> PAGE_COMPARATOR = Comparator.comparingInt(Book::pages);
 
     public static void main(String[] args) {
 
         List<Student> students = getStudentList();
 
         students.stream()
-            .flatMap(student -> student.getBooks().stream())
+            .flatMap(student -> student.books().stream())
             .sorted(PAGE_COMPARATOR)
             .distinct()
-            .filter(book -> book.getPublishedYear() > YEAR_FILTER)
+            .filter(book -> book.publishedYear() > YEAR_FILTER)
             .limit(BOOK_LIMIT)
-            .map(Book::getPublishedYear)
+            .map(Book::publishedYear)
             .findFirst()
             .ifPresentOrElse(
                 publishedYear -> logger.info("Год выпуска найденной книги: " + publishedYear),

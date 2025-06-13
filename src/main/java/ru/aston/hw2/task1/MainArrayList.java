@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class MainArrayList {
 
-    static Logger logger = Logger.getLogger(MainArrayList.class.getName());
+    static final Logger logger = Logger.getLogger(MainArrayList.class.getName());
 
 
     public static void main(String[] args) {

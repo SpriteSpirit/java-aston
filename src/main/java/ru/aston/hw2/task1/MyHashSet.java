@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 public class MyHashSet<E> {
 
+    static final Logger logger = Logger.getLogger(MyHashSet.class.getName());
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
     private static final float LOAD_FACTOR = 0.75f;
-    static Logger logger = Logger.getLogger(MyHashSet.class.getName());
     private List<E>[] buckets;
     private int size;
     private int threshold;

@@ -1,4 +1,4 @@
-package main.java.ru.aston.hw1.vehicle;
+package ru.aston.hw1.vehicle;
 
 public class Truck extends Vehicle implements HasWheels, CanCarryCargo {
 

@@ -224,21 +224,23 @@ import java.util.logging.Logger;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
-public class main.Main {
+public class main.
 
-   private static final Logger logger = Logger.getLogger(main.Main.class.getName());
+Main {
 
-   static {
-      logger.setLevel(Level.FINE);
-      ConsoleHandler handler = new ConsoleHandler();
-      handler.setLevel(Level.FINE);
-      logger.addHandler(handler);
-   }
+    private static final Logger logger = Logger.getLogger(main.Main.class.getName());
 
-   public static void main(String[] args) {
-      logger.fine("Это сообщение теперь видно!");
-      logger.info("Это информационное сообщение.");
-   }
+    static {
+        logger.setLevel(Level.FINE);
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setLevel(Level.FINE);
+        logger.addHandler(handler);
+    }
+
+    public static void main (String[]args){
+        logger.fine("Это сообщение теперь видно!");
+        logger.info("Это информационное сообщение.");
+    }
 }
 ```
 

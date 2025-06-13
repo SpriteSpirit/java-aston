@@ -3,23 +3,7 @@ package ru.aston.hw2.task2;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Student {
-
-    private final String name;
-    private final List<Book> books;
-
-    public Student(String name, List<Book> books) {
-        this.name = name;
-        this.books = books;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
+public record Student(String name, List<Book> books) {
 
     @Override
     public String toString() {

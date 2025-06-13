@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class MainHashSet {
 
-    static Logger logger = Logger.getLogger(MainHashSet.class.getName());
+    static final Logger logger = Logger.getLogger(MainHashSet.class.getName());
 
 
     public static void main(String[] args) {
