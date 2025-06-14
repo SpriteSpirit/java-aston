@@ -81,4 +81,56 @@ public class StrategyPatternRealize {
                 '}';
         }
     }
+
+    /**
+     * Контекст. Заказ с возможностью применения скидки. Использует стратегию
+     * {@link DiscountStrategy} для расчета итоговой стоимости.
+     */
+    public static class Order {
+
+        private final double totalPrice;
+        private DiscountStrategy discountStrategy;
+
+        /**
+         * Создаёт заказ с указанной стоимостью.
+         *
+         * @param totalPrice Стоимость заказа (>= 0).
+         */
+        public Order(double totalPrice) {
+            if (totalPrice < 0) {
+                throw new IllegalArgumentException(
+                    "Стоимость не может иметь отрицательное значение.");
+            }
+
+            this.totalPrice = totalPrice;
+        }
+
+        /**
+         * Устанавливает стратегию расчета скидки.
+         *
+         * @param discountStrategy Стратегия (может быть null)
+         */
+        public void setDiscountStrategy(DiscountStrategy discountStrategy) {
+            this.discountStrategy = discountStrategy;
+        }
+
+        /**
+         * Рассчитывает итоговую стоимость после применения скидки.
+         *
+         * @return Стоимость заказа после применения скидки.
+         */
+        public double calculateFinalPrice() {
+            return discountStrategy != null ?
+                discountStrategy.applyDiscount(totalPrice) : totalPrice;
+        }
+
+
+        @Override
+        public String toString() {
+            return "Order{" +
+                "totalPrice=" + totalPrice +
+                ", discountStrategy=" + discountStrategy +
+                '}';
+        }
+    }
 }
