@@ -1,6 +1,10 @@
 # Паттерны проектирования: Стратегия, Цепочка обязанностей, Билдер, Прокси, Декоратор, Адаптер
 
-Этот документ содержит описание шести паттернов проектирования: Стратегия, Цепочка обязанностей, Билдер, Прокси, Декоратор и Адаптер. Для каждого паттерна представлено лаконичное объяснение назначения, структуры, сценариев использования, примеров реализации на Java и ключевых нюансов. Документация предназначена для разработчиков, желающих изучить или применить эти паттерны в своих проектах.
+Этот документ содержит описание шести паттернов проектирования: Стратегия, Цепочка обязанностей,
+Билдер, Прокси, Декоратор и Адаптер. Для каждого паттерна представлено лаконичное объяснение
+назначения, структуры, сценариев использования, примеров реализации на Java и ключевых нюансов.
+Документация предназначена для разработчиков, желающих изучить или применить эти паттерны в своих
+проектах.
 
 ---
 
@@ -8,7 +12,8 @@
 
 ### Назначение
 
-Определяет семейство алгоритмов, инкапсулирует каждый из них и делает их взаимозаменяемыми. Позволяет выбирать алгоритм во время выполнения программы.
+Определяет семейство алгоритмов, инкапсулирует каждый из них и делает их взаимозаменяемыми.
+Позволяет выбирать алгоритм во время выполнения программы.
 
 ### Структура
 
@@ -26,20 +31,25 @@
 
 ```java
 interface SortStrategy {
+
     void sort(int[] array);
 }
 
 class BubbleSort implements SortStrategy {
+
     public void sort(int[] array) {
         System.out.println("Пузырьковая сортировка");
     }
 }
 
 class Sorter {
+
     private SortStrategy strategy;
+
     public void setStrategy(SortStrategy strategy) {
         this.strategy = strategy;
     }
+
     public void sortArray(int[] array) {
         strategy.sort(array);
     }
@@ -76,14 +86,18 @@ class Sorter {
 
 ```java
 abstract class Approver {
+
     protected Approver next;
+
     public void setNext(Approver next) {
         this.next = next;
     }
+
     public abstract void approveRequest(int amount);
 }
 
 class Manager extends Approver {
+
     public void approveRequest(int amount) {
         if (amount <= 1000) {
             System.out.println("Менеджер одобрил: " + amount);
@@ -124,26 +138,34 @@ class Manager extends Approver {
 
 ```java
 class Car {
-    private String engine, color;
+
+    private final String engine;
+    private final String color;
+
     public Car(String engine, String color) {
         this.engine = engine;
         this.color = color;
     }
+
     public String toString() {
         return "Car [engine=" + engine + ", color=" + color + "]";
     }
 }
 
 class CarBuilder {
+
     private String engine, color;
+
     public CarBuilder setEngine(String engine) {
         this.engine = engine;
         return this;
     }
+
     public CarBuilder setColor(String color) {
         this.color = color;
         return this;
     }
+
     public Car build() {
         return new Car(engine, color);
     }
@@ -162,7 +184,8 @@ class CarBuilder {
 
 ### Назначение
 
-Предоставляет суррогат для объекта, контролируя доступ к нему (например, для ленивой инициализации или логирования).
+Предоставляет суррогат для объекта, контролируя доступ к нему (например, для ленивой инициализации
+или логирования).
 
 ### Структура
 
@@ -180,26 +203,33 @@ class CarBuilder {
 
 ```java
 interface Image {
+
     void display();
 }
 
 class RealImage implements Image {
-    private String filename;
+
+    private final String filename;
+
     public RealImage(String filename) {
         this.filename = filename;
         System.out.println("Загрузка: " + filename);
     }
+
     public void display() {
         System.out.println("Отображение: " + filename);
     }
 }
 
 class ProxyImage implements Image {
+
     private RealImage realImage;
-    private String filename;
+    private final String filename;
+
     public ProxyImage(String filename) {
         this.filename = filename;
     }
+
     public void display() {
         if (realImage == null) {
             realImage = new RealImage(filename);
@@ -239,33 +269,42 @@ class ProxyImage implements Image {
 
 ```java
 interface Beverage {
+
     String getDescription();
+
     double cost();
 }
 
 class Espresso implements Beverage {
+
     public String getDescription() {
         return "Эспрессо";
     }
+
     public double cost() {
         return 1.99;
     }
 }
 
 abstract class BeverageDecorator implements Beverage {
+
     protected Beverage beverage;
+
     public BeverageDecorator(Beverage beverage) {
         this.beverage = beverage;
     }
 }
 
 class Milk extends BeverageDecorator {
+
     public Milk(Beverage beverage) {
         super(beverage);
     }
+
     public String getDescription() {
         return beverage.getDescription() + ", Молоко";
     }
+
     public double cost() {
         return beverage.cost() + 0.5;
     }
@@ -284,7 +323,8 @@ class Milk extends BeverageDecorator {
 
 ### Назначение
 
-Позволяет объектам с несовместимыми интерфейсами работать вместе, преобразуя один интерфейс в другой.
+Позволяет объектам с несовместимыми интерфейсами работать вместе, преобразуя один интерфейс в
+другой.
 
 ### Структура
 
@@ -301,17 +341,21 @@ class Milk extends BeverageDecorator {
 
 ```java
 interface NewMediaPlayer {
+
     void play(String audioType, String fileName);
 }
 
 class OldMediaPlayer {
+
     public void playMp3(String fileName) {
         System.out.println("Воспроизведение MP3: " + fileName);
     }
 }
 
 class MediaAdapter implements NewMediaPlayer {
-    private OldMediaPlayer oldPlayer = new OldMediaPlayer();
+
+    private final OldMediaPlayer oldPlayer = new OldMediaPlayer();
+
     public void play(String audioType, String fileName) {
         if (audioType.equalsIgnoreCase("mp3")) {
             oldPlayer.playMp3(fileName);
@@ -332,9 +376,11 @@ class MediaAdapter implements NewMediaPlayer {
 
 ## Рекомендации по применению
 
-- **Анализ задачи**: Определите, решает ли паттерн конкретную проблему (например, гибкость, контроль доступа).
+- **Анализ задачи**: Определите, решает ли паттерн конкретную проблему (например, гибкость, контроль
+  доступа).
 - **Простота**: Избегайте избыточного усложнения для простых задач.
 - **Тестирование**: Проверяйте реализацию паттернов в различных сценариях.
 - **Документация**: Описывайте выбор паттерна для поддержки кода.
 
-Эти паттерны проектирования являются фундаментальными инструментами для создания гибких, поддерживаемых и масштабируемых приложений на Java.
+Эти паттерны проектирования являются фундаментальными инструментами для создания гибких,
+поддерживаемых и масштабируемых приложений на Java.
