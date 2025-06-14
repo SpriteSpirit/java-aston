@@ -6,6 +6,10 @@ package ru.aston.hw5.strategy;
  */
 public class StrategyPatternRealize {
 
+    private StrategyPatternRealize() {
+        throw new IllegalStateException("StrategyPattern class");
+    }
+
     /**
      * Реализация стратегии скидки, которая вычитает фиксированную сумму из общей цены. Если скидка
      * превышает цену, то итоговая стоимость будет равна 0.
