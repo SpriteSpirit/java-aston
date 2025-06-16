@@ -8,7 +8,7 @@ import ru.aston.hw5.strategy.StrategyPatternRealize.PercentageDiscount;
 
 public class Main {
 
-    static Logger logger = Logger.getLogger(Main.class.getName());
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
         double totalPrice = 10_000.0;
