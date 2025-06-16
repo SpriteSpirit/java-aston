@@ -25,7 +25,7 @@ class Task implements Runnable {
     }
 }
 
-public class main.Main {
+public class Main {
 
     public static void main(String[] args) {
         Thread thread1 = new Thread(new Task());
@@ -178,9 +178,10 @@ class Counter {
     public int getCount() {
         return count;
     }
+
 }
 
-public class main.Main {
+public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         Counter counter = new Counter();
@@ -198,7 +199,6 @@ public class main.Main {
         t2.join();
         System.out.println("Итоговое значение: " + counter.getCount()); // 2000
     }
-}
 ```
 
 #### Плюсы
@@ -246,7 +246,7 @@ class Counter {
     }
 }
 
-public class main.Main {
+public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         Counter counter = new Counter();
@@ -309,9 +309,11 @@ class ConnectionPool {
     }
 }
 
-public class main.Main {
+public class main.
 
-    public static void main(String[] args) {
+Main {
+
+    public static void main (String[]args){
         ConnectionPool pool = new ConnectionPool();
         Runnable task = () -> {
             try {
