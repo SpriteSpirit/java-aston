@@ -1,6 +1,5 @@
 package ru.aston.hw5.strategy;
 
-
 /**
  * Стратегия применения скидки.
  */
