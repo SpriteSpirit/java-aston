@@ -25,12 +25,13 @@ public class GiftWrapping extends OrderDecorator {
     }
 
     /**
-     * Получение стоимости заказа.
+     * Получение стоимости заказа с учетом упаковки.
      *
      * @return Стоимость заказа с учетом упаковки.
      */
     @Override
     public double getCost() {
-        return orderService.getCost() + 5.0;
+        double wrapCost = 5.0;
+        return orderService.getCost() + wrapCost;
     }
 }
