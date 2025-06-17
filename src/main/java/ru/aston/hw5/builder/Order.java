@@ -16,15 +16,20 @@ public final class Order {
 
     /**
      * Создание нового заказа.
-     *
-     * @param items           Список товаров (создается защитная копия).
-     * @param deliveryAddress Адрес доставки (обязательное поле).
-     * @param comment         Комментарий к заказу (пустая строка если null).
      */
-    private Order(List<String> items, String deliveryAddress, String comment) {
-        this.items = List.copyOf(items);
-        this.deliveryAddress = Objects.requireNonNull(deliveryAddress, "Поле адрес не быть пустым");
-        this.comment = comment != null ? comment : "";
+    private Order(Builder builder) {
+        this.items = List.copyOf(builder.items);
+        this.deliveryAddress = Objects.requireNonNull(builder.deliveryAddress,
+            "Адрес доставки обязателен");
+        this.comment = builder.comment != null ? builder.comment : "";
+    }
+
+    /**
+     * Фабричный метод для создания строителя заказа. Пример:
+     * {@code Order.builder().item("Товар").build()}
+     */
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override
@@ -38,11 +43,17 @@ public final class Order {
     /**
      * Строитель для создания объектов Order. Позволяет задавать параметры пошагово.
      */
-    public static class Builder {
+    public static final class Builder {
 
         private final List<String> items = new ArrayList<>();
         private String deliveryAddress;
         private String comment;
+
+        /**
+         * Приватный конструктор строителя. Использование: только через {@link Order#builder()}.
+         */
+        private Builder() {
+        }
 
         /**
          * Добавление товара в заказ.
@@ -50,8 +61,19 @@ public final class Order {
          * @param item Название товара.
          * @return Текущий строитель.
          */
-        public Builder addItem(String item) {
-            items.add(item);
+        public Builder item(String item) {
+            this.items.add(Objects.requireNonNull(item, "Товар не может быть null"));
+            return this;
+        }
+
+        /**
+         * Добавление товаров в заказ.
+         *
+         * @param items Список товаров.
+         * @return Текущий строитель.
+         */
+        public Builder items(List<String> items) {
+            this.items.addAll(Objects.requireNonNull(items, "Список товаров не может быть null"));
             return this;
         }
 
@@ -61,7 +83,7 @@ public final class Order {
          * @param address Адрес доставки.
          * @return Текущий строитель.
          */
-        public Builder setDeliveryAddress(String address) {
+        public Builder deliveryAddress(String address) {
             this.deliveryAddress = address;
             return this;
         }
@@ -72,7 +94,7 @@ public final class Order {
          * @param comment Текст комментария.
          * @return Текущий строитель.
          */
-        public Builder setComment(String comment) {
+        public Builder comment(String comment) {
             this.comment = comment;
             return this;
         }
@@ -84,7 +106,7 @@ public final class Order {
          * @throws NullPointerException Если не указан адрес доставки.
          */
         public Order build() {
-            return new Order(items, deliveryAddress, comment);
+            return new Order(this);
         }
 
         @Override

@@ -1,5 +1,6 @@
 package ru.aston.hw5.builder;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,11 +10,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Order order = new Order.Builder()
-            .addItem("Книга")
-            .addItem("Ручка")
-            .setDeliveryAddress("ул. Ленина, 10")
-            .setComment("Позвонить перед доставкой")
+        Order order = Order.builder()
+            .item("Книга")
+            .items(List.of("Рюкзак", "Кепка"))
+            .deliveryAddress("ул. Ленина, 10")
+            .comment("Позвонить перед доставкой")
             .build();
         loggingOrder(order);
     }
